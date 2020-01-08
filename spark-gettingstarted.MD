@@ -1,6 +1,6 @@
 # Getting Started with Spark
 
-## 1. Your variable
+## 1. Assign Variables
 ```
 val movies = sc.parallelize(
     Array(
@@ -19,7 +19,7 @@ val movies = sc.parallelize(
 movies.collect().foreach(println)
 ```
 
-## 3. First Transformations
+## 3. RDD Transformations
 
 ### filter() : Predicated as Java8
 ```scala
@@ -50,6 +50,18 @@ familyGenres.collect().foreach(println)
 ```scala
 val diff = familyGenres.cartesian(familyGenres).filter{ case(g1,g2) => g1 != g2 }
 diff.collect().foreach(println)
+```
+
+## 4. RDD ACTIONS
+
+```
+collect()
+take(n)
+first()
+reduce(f)
+foreach()
+saveAsTextFile()
+saveToCassandra(keyspace, table, [columns])
 ```
 
 
