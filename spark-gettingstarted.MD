@@ -19,17 +19,37 @@ val movies = sc.parallelize(
 movies.collect().foreach(println)
 ```
 
-## 3. Filter
-```java
-// 
+## 3. First Transformations
+
+### filter() : Predicated as Java8
+```scala
+// Option 1, extract last 4 characters
 val movies2010 = movies.filter(
   m => m.substring(m.length-4, m.length).toInt == 2010
 )
+
+// Option 2, split and fetch last
+movies.filter(m => m.split(",").last.trim.toInt == 2010).collect().foreach(println)
 ```
 
-# --------------------
-# Filter avec les 4 derniers caracteres
-# --------------------
+### map() : same as Java
+```scala
+val familyMovies = movies.map(
+  m => (m,Set("a","b"))
+)
+familyMovies.collect().foreach(println)
+```
 
-val movies2010 = movies.filter(m => m.substring(m.length-4, m.length).toInt == 2010)
+### flatMap() : explode a collection
+```scala
+val familyGenres = familyMovies.flatMap{ case(m,g) => g}.distinct
+familyGenres.collect().foreach(println)
+```
+
+### cartesian() : all combination
+```scala
+val diff = familyGenres.cartesian(familyGenres).filter{ case(g1,g2) => g1 != g2 }
+diff.collect().foreach(println)
+```
+
 
